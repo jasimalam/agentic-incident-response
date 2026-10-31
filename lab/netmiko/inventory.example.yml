@@ -1,0 +1,17 @@
+__meta__:
+  encryption: false
+  encryption_type: fernet
+
+srl_a:
+  device_type: nokia_srl
+  host: 127.0.0.1
+  port: 2221
+  username: "REPLACE_WITH_READ_ONLY_USERNAME"
+  password: "REPLACE_LOCALLY_AND_DO_NOT_COMMIT"
+
+srl_b:
+  device_type: nokia_srl
+  host: 127.0.0.1
+  port: 2223
+  username: "REPLACE_WITH_READ_ONLY_USERNAME"
+  password: "REPLACE_LOCALLY_AND_DO_NOT_COMMIT"

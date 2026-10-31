@@ -1,0 +1,18 @@
+set / interface ethernet-1/1 admin-state enable
+set / interface ethernet-1/1 subinterface 0 admin-state enable
+set / interface ethernet-1/1 subinterface 0 ipv4 admin-state enable
+set / interface ethernet-1/1 subinterface 0 ipv4 address 10.0.2.2/30
+set / network-instance default interface ethernet-1/1.0
+set / network-instance default protocols bgp autonomous-system 65002
+set / network-instance default protocols bgp router-id 10.0.2.2
+set / network-instance default protocols bgp afi-safi ipv4-unicast admin-state enable
+set / network-instance default protocols bgp group srl-a admin-state enable
+set / network-instance default protocols bgp group srl-a export-policy ["hijack-export"]
+set / network-instance default protocols bgp neighbor 10.0.2.1 peer-group srl-a
+set / network-instance default protocols bgp neighbor 10.0.2.1 peer-as 65001
+set / network-instance default protocols bgp neighbor 10.0.2.1 admin-state enable
+set / network-instance default next-hop-groups group hijack-sink blackhole
+set / routing-policy prefix-set hijack-prefix prefix 198.51.100.128/25 mask-length-range 25..25
+set / routing-policy policy hijack-export statement 10 match prefix-set hijack-prefix
+set / routing-policy policy hijack-export statement 10 action policy-result accept
+set / routing-policy policy hijack-export default-action policy-result reject

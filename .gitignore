@@ -1,0 +1,13 @@
+.DS_Store
+__pycache__/
+*.pyc
+
+# containerlab generated lab directory (configs, TLS keys, state)
+lab/clab-*/
+
+# local secrets
+lab/secrets/*
+!lab/secrets/.gitkeep
+
+# per-run eval artifacts (keep results.csv)
+lab/evals/runs/*/

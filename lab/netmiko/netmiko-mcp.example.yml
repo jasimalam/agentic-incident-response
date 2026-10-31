@@ -1,0 +1,7 @@
+inventory_type: "netmiko_tools"
+inventory_file: "~/.netmiko.yml"
+command_file: "~/commands.yml"
+allow_pipe: false
+audit_log_enabled: true
+audit_log_destination: "file"
+audit_log_file: "~/.netmiko_mcp_audit.log"

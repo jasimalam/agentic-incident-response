@@ -1,0 +1,59 @@
+{
+  "freeTextAnnotations": [],
+  "freeShapeAnnotations": [],
+  "trafficRateAnnotations": [],
+  "groupStyleAnnotations": [],
+  "networkNodeAnnotations": [
+    {
+      "id": "host:clab-probe",
+      "type": "host",
+      "label": "host:clab-probe",
+      "position": {
+        "x": 480,
+        "y": 560
+      }
+    }
+  ],
+  "nodeAnnotations": [
+    {
+      "id": "srl-a",
+      "interfacePattern": "e1-{n}",
+      "position": {
+        "x": 480,
+        "y": 260
+      }
+    },
+    {
+      "id": "srl-b",
+      "interfacePattern": "e1-{n}",
+      "position": {
+        "x": 640,
+        "y": 340
+      }
+    },
+    {
+      "id": "probe",
+      "position": {
+        "x": 60,
+        "y": 360
+      }
+    },
+    {
+      "id": "upstream",
+      "position": {
+        "x": 420,
+        "y": 420
+      }
+    },
+    {
+      "id": "service",
+      "position": {
+        "x": 620,
+        "y": 160
+      }
+    }
+  ],
+  "edgeAnnotations": [],
+  "aliasEndpointAnnotations": [],
+  "viewerSettings": {}
+}

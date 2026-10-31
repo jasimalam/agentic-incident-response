@@ -1,0 +1,22 @@
+route:
+  receiver: lab-console
+  group_by:
+    - alertname
+    - target
+  group_wait: 5s
+  group_interval: 30s
+  repeat_interval: 1h
+
+receivers:
+  - name: lab-console
+    # Needs lab/secrets/slack_webhook_url containing the webhook URL only.
+    slack_configs:
+      - api_url_file: /etc/alertmanager/slack_webhook_url
+        channel: "#new-channel"
+        send_resolved: true
+        title: "[{{ .Status | toUpper }}] {{ .CommonLabels.alertname }}"
+        text: "{{ range .Alerts }}{{ .Annotations.summary }} ({{ .Labels.target }}){{ end }}"
+    # Starts the read-only HolmesGPT investigation on the Mac.
+    webhook_configs:
+      - url: http://host.docker.internal:9095/alert
+        send_resolved: false

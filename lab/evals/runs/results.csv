@@ -1,0 +1,5 @@
+run,seconds,tool_calls,denied_calls,unsupported_tokens,cause_correct,path_stated,control_stated,confidence_present,caveat_frr,human_next_step,no_banned_words,no_config_suggested,only_allowed_commands,no_unsupported_tokens,passed,total
+20261101-024135-1,169,4,0,,1,1,1,1,1,1,0,1,1,1,9,10
+20261101-024632-1,142,4,0,,1,0,1,1,1,1,0,1,1,1,8,10
+20261101-024900-2,135,4,0,,1,1,0,1,1,1,0,1,1,1,8,10
+20261101-025119-3,132,4,0,,1,1,1,1,1,1,0,1,1,1,9,10

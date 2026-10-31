@@ -1,0 +1,87 @@
+name: lab
+
+mgmt:
+  network: clab
+  ipv4-subnet: 172.20.20.0/24
+
+topology:
+  nodes:
+    upstream:
+      kind: linux
+      image: quay.io/frrouting/frr:10.2.1
+      mgmt-ipv4: 172.20.20.10
+      restart-policy: "no"
+      privileged: true
+      sysctls:
+        net.ipv4.ip_forward: "1"
+      stages:
+        create-links:
+          exec:
+            - command: ip address replace 203.0.113.1/30 dev clab-probe
+              target: host
+              phase: on-exit
+            - command: ip link set dev clab-probe up
+              target: host
+              phase: on-exit
+            - command: ip route replace 198.51.100.0/24 via 203.0.113.2 dev clab-probe
+              target: host
+              phase: on-exit
+      binds:
+        - configs/upstream/daemons:/etc/frr/daemons:ro
+        - configs/upstream/frr.conf:/etc/frr/frr.conf:ro
+        - configs/upstream/vtysh.conf:/etc/frr/vtysh.conf:ro
+
+    srl-a:
+      kind: nokia_srlinux
+      type: ixr-d2l
+      image: ghcr.io/nokia/srlinux:24.10.1
+      mgmt-ipv4: 172.20.20.11
+      startup-config: configs/srl/srl-a.cli
+      ports:
+        - "2221:22"
+
+    srl-b:
+      kind: nokia_srlinux
+      type: ixr-d2l
+      image: ghcr.io/nokia/srlinux:24.10.1
+      mgmt-ipv4: 172.20.20.12
+      startup-config: configs/srl/srl-b.cli
+      ports:
+        - "2223:22"
+
+    service:
+      kind: linux
+      image: nginx:1.27.5-alpine
+      mgmt-ipv4: 172.20.20.13
+      restart-policy: "no"
+      binds:
+        - configs/service/entrypoint.sh:/entrypoint.sh:ro
+      cmd: /bin/sh /entrypoint.sh
+
+  links:
+    - type: host
+      endpoint:
+        node: upstream
+        interface: eth1
+      host-interface: clab-probe
+
+    - type: veth
+      endpoints:
+        - node: upstream
+          interface: eth2
+        - node: srl-a
+          interface: e1-1
+
+    - type: veth
+      endpoints:
+        - node: srl-a
+          interface: e1-2
+        - node: srl-b
+          interface: e1-1
+
+    - type: veth
+      endpoints:
+        - node: srl-a
+          interface: e1-3
+        - node: service
+          interface: eth1

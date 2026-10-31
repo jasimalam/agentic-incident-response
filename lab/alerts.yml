@@ -1,0 +1,12 @@
+groups:
+  - name: subprefix-probes
+    rules:
+      - alert: SubprefixProbeFailure
+        expr: probe_success{target="198.51.100.130", probe_role="affected"} == 0
+        for: 30s
+        labels:
+          severity: critical
+        annotations:
+          summary: Affected subprefix target is unreachable
+          description: 'The affected target {{ $labels.target }} failed its HTTP probe. Control target 198.51.100.10 probe_success = {{ with query "probe_success{probe_role=\"control\"}" }}{{ . | first | value }}{{ end }} (1 means reachable).'
+          investigation: The target is an IP behind the lab routers, not a device. Check routes for 198.51.100.0/24 and 198.51.100.128/25 on devices srl_a and srl_b with send_show_command.
